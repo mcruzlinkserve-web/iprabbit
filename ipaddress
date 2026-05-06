@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My IP Checker</title>
+    <style>
+        body {
+            background: black;
+            color: yellow;
+            font-family: Arial;
+            text-align: center;
+            margin-top: 100px;
+        }
+        h1 {
+            font-size: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Your IP Address:</h1>
+<h2 id="ip">Loading...</h2>
+
+<script>
+fetch("https://api.ipify.org?format=json")
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("ip").innerText = data.ip;
+    })
+    .catch(() => {
+        document.getElementById("ip").innerText = "Error getting IP";
+    });
+</script>
+
+</body>
+</html>
