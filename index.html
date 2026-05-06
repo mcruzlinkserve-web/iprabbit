@@ -37,8 +37,8 @@ fetch("https://get.geojs.io/v1/ip/geo.json")
   .then(data => {
     document.getElementById("ip").innerText = data.ip;
     document.getElementById("info").innerText =
-      `Location: ${data.city}, ${data.region}, ${data.country_name}
-          ISP: ${data.org}
+      `Location: ${data.city}, ${data.region}, ${data.country}
+          ISP: ${data.organization_name}
           Timezone: ${data.timezone}`;
   })
   .catch(() => {
