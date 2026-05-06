@@ -5,30 +5,59 @@
     <style>
         body {
             background: black;
-            color: yellow;
-            font-family: Arial;
+            color: lime;
+            font-family: "Courier New";
             text-align: center;
             margin-top: 100px;
         }
+
+        .container {
+            border: 1px solid lime;
+            padding: 20px;
+            display: inline-block;
+        }
+
         h1 {
             font-size: 40px;
         }
+        @keyframes blink {
+  50% { opacity: 0; }
+}
+
+.cursor {
+  display: inline-block;
+  width: 10px;
+  background: lime;
+  animation: blink 1s infinite;
+}
     </style>
 </head>
 <body>
 
-<h1>Your IP Address:</h1>
-<h2 id="ip">Loading...</h2>
+<div class="container">
+    <span class="cursor">
+        <h1>Your IP Address:</h1>
+        <h2 id="ip">Loading...</h2>
+        <p id="info"></p>
+    </span>
+
+</div>
 
 <script>
-fetch("https://api.ipify.org?format=json")
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById("ip").innerText = data.ip;
-    })
-    .catch(() => {
-        document.getElementById("ip").innerText = "Error getting IP";
-    });
+    document.getElementById("ip").innerText = "Fetching...";
+fetch("https://ipapi.co/json/")
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("ip").innerText = data.ip;
+    document.getElementById("info").innerText =
+      `Location: ${data.city}, ${data.region}, ${data.country_name}
+          ISP: ${data.org}
+          Timezone: ${data.timezone}`;
+  })
+  .catch(() => {
+    document.getElementById("ip").innerText = "Error";
+      
+  });
 </script>
 
 </body>
