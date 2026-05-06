@@ -40,19 +40,30 @@ p {
 </div>
 
 <script>
+    
     document.getElementById("ip").innerText = "Fetching...";
-fetch("https://get.geojs.io/v1/ip/geo.json")
-  .then(res => res.json())
-  .then(data => {
-    document.getElementById("ip").innerText = data.ip;
-    document.getElementById("info").innerText =
-      `Location: ${data.city}, ${data.region}, ${data.country}
-          ISP: ${data.organization_name}
-          Timezone: ${data.timezone}`;
+
+// 1. Get the IPv4 address first
+    fetch("https://api.ipify.org?format=json")
+    .then(res => res.json())
+    .then(data => {
+        const ipv4 = data.ip;
+ 
+// 2. Pass that specific IPv4 to GeoJS to get the location details
+        return fetch(`https://get.geojs.io/v1/ip/geo/${ipv4}.json`);
   })
+    .then(res => res.json())
+    .then(geoData => {
+        document.getElementById("ip").innerText = geoData.ip;
+        document.getElementById("info").innerText =
+              `Location: ${geoData.city}, ${geoData.region}, ${geoData.country}
+                ISP: ${geoData.organization_name}
+                Timezone: ${geoData.timezone}`;
+  })
+    
   .catch(() => {
-    document.getElementById("ip").innerText = "Error";
-      
+    document.getElementById("ip").innerText = "Error fetching IP data.";
+
   });
 </script>
 
